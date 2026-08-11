@@ -1,0 +1,56 @@
+import http from "@/core/request";
+
+export const {{toLowerCase tscName}}Api = {
+    index: '/{{toLowerCase tscName}}/index',
+    add: '/{{toLowerCase tscName}}/add',
+    remove: '/{{toLowerCase tscName}}/delete',
+    update: '/{{toLowerCase tscName}}/update',
+    detail:'/{{toLowerCase tscName}}/detail',
+    select:'/{{toLowerCase tscName}}/select',
+}
+
+export function index(params) {
+    return http.request({
+        url: {{toLowerCase tscName}}Api.index,
+        method: 'get',
+        params
+    })
+}
+
+export function detail(params) {
+    return http.request({
+        url: {{toLowerCase tscName}}Api.detail,
+        method: 'get',
+        params
+    })
+}
+export function add(data) {
+    return http.request({
+        url: {{toLowerCase tscName}}Api.add,
+        method: 'post',
+        data
+    })
+}
+
+export function remove(data){
+    return http.request({
+        url:{{toLowerCase tscName}}Api.remove,
+        method: 'post',
+        data
+    })
+}
+export function update(data){
+    return http.request({
+        url:{{toLowerCase tscName}}Api.update,
+        method: 'post',
+        data
+    })
+}
+
+export function select(params) {
+    return http.request({
+        url: {{toLowerCase tscName}}Api.select,
+        method: 'get',
+        params
+    })
+}

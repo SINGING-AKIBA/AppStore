@@ -1,0 +1,66 @@
+<template>
+  <a-card :loading="loading">
+    <a-form
+      :label-col="{ span: 3 }"
+      :wrapper-col="{ span: 6 }"
+      @finish="handleSubmit"
+      :model="formData"
+    >
+      <a-tabs v-model:activeKey="tabKey" type="card" @change="handleTabsChange">
+{{tabPane}}
+      </a-tabs>
+{{formItem}}
+      <a-form-item :wrapper-col="{ offset: 3 }">
+        <a-button type="primary" html-type="submit" :loading="loading" :disabled="loading"><{ $t('submit') }></a-button>
+        <a-button @click="onBack"><{ $t('back') }></a-button>
+      </a-form-item>
+    </a-form>
+  </a-card>
+</template>
+
+<script setup>
+import { debounce } from 'lodash'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { message } from 'ant-design-vue'
+import { add } from '@/api/{{toFileName fileName}}'
+{{import}}
+defineOptions({
+  inheritAttrs: false,
+  name: '{{toLowerCase tscName}}.Add'
+})
+// 响应式状态
+const { t } = useI18n();
+const loading = ref(false)
+const tabKey = ref(1)
+const formData = reactive({
+  {{detailVar}}
+})
+const router = useRouter()
+
+const onBack = () => {
+  router.push('index')
+}
+// 方法
+const handleSubmit = async (values) => {
+  loading.value = true;
+  try {
+    await add(values);
+    message.success(t('添加成功'));
+    setTimeout(onBack, 1500);
+  } finally {
+    loading.value = false;
+  }
+};
+const handleTabsChange = (key) => {
+  tabKey.value = key
+}
+{{optionVar}}
+{{importCreate}}
+
+// 生命周期
+onMounted(() => {
+{{importRun}}
+})
+</script>

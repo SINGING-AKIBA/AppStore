@@ -1,0 +1,135 @@
+@import './base.css';
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #bdbdbd;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
+
+html,
+body,
+#app,
+#root {
+  min-height: 100vh;
+}
+.ant-layout .ant-layout-content{
+  min-height: 100vh;
+}
+p {
+  margin: 0;
+}
+/* 去除所有元素默认的样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.table-operator > .row-item-search,.row-item-group{
+  margin-bottom: 24px;
+}
+
+
+.slide-fade-enter-active {
+  transition: all 0.1s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.ant-btn-dark {
+  background-color: #444c69;
+  border-color: #444c69;
+  color: #ffffff;
+}
+.ant-btn-dark:hover,
+.ant-btn-dark:focus {
+  background-color: #353b4d;
+  border-color: #2c3144;
+  color: #ffffff;
+}
+
+.ant-btn-green {
+  background-color: #18bc9c;
+  border-color: #18bc9c;
+  color: #fff;
+}
+.ant-btn-green:hover,
+.ant-btn-green:focus {
+  background-color: #16a085;
+  border-color: #16a085;
+  color: #fff;
+}
+
+.ant-btn-pink {
+  background-color: #eb2f96;
+  border-color: #eb2f96;
+  color: #fff;
+}
+.ant-btn-pink:hover,
+.ant-btn-pink:focus {
+  background-color: #ea4c89;
+  border-color: #ea4c89;
+  color: #fff;
+}
+
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-end {
+  justify-content: flex-end;
+}
+.flex-start {
+  justify-content: flex-start;
+}
+
+.s-title-filter-columns{
+  width:150px;
+  max-height:400px;
+  overflow-y:scroll;
+}
+
+.search-form .ant-form-item{
+  margin-bottom: 10px;
+}
+.join-form-wrapper {
+  .join-form-item {
+    &:hover {
+      border: 1px dashed #ccc;
+    }
+  }
+  .btn-group {
+    display: flex;
+    justify-content: center;
+  }
+  .hidden{
+    display: none;
+  }
+}
+.ant-input-number{
+  width: 100%;
+}

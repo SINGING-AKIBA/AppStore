@@ -1,0 +1,48 @@
+{{#*inline "Index"}}
+@Index("{{name}}",[{{#columns}}"{{toPropertyName .}}",{{/columns~}}],{ {{json options}} })
+{{/inline}}
+{{#*inline "Import"}}
+import {{localImport (toEntityName entityName)}} from './{{toFileName fileName}}'
+{{/inline}} 
+{{#*inline "Column"}}
+{{#generated}}@PrimaryGeneratedColumn({ type:"{{type}}", {{/generated}}{{^generated}}@Column("{{type}}",{ {{#primary}}primary:{{primary}},{{/primary}}{{/generated}}{{json options}}{{#default}},default: {{.}},{{/default}} })
+{{printPropertyVisibility}}{{toPropertyName tscName}}{{strictMode}}:{{tscType}}{{#if options.nullable}} | null{{/if}};
+
+{{/inline}}
+{{#*inline "JoinColumnOptions"}}
+{ name: "{{name}}", referencedColumnName: "{{toPropertyName referencedColumnName}}" },
+{{/inline}}
+{{#*inline "Relation"}}
+@{{relationType}}(()=>{{toEntityName relatedTable}}{{#if (eq relationType "ManyToOne")}}{{else}},{{toPropertyName relatedTable}}=>{{toPropertyName relatedTable}}.{{toPropertyName relatedField}}{{/if}}{{#if relationOptions}},{ {{json relationOptions}} }{{/if}})
+{{#if joinColumnOptions}}@JoinColumn([{{#joinColumnOptions}}{{> JoinColumnOptions}}{{/joinColumnOptions}}]){{/if}}
+{{#joinTableOptions}}@JoinTable({ name:"{{name}}", joinColumns:[{{#joinColumns}}{{> JoinColumnOptions}}{{/joinColumns}}],inverseJoinColumns:[{{#inverseJoinColumns}}{{> JoinColumnOptions}}{{/inverseJoinColumns}}],{{#database}}database:"{{.}}",{{/database}}{{#schema}}schema:"{{.}}"{{/schema}} }){{/joinTableOptions}}
+{{printPropertyVisibility}}{{toPropertyName fieldName}}{{strictMode}}:{{toRelation (toEntityName relatedTable) relationType}};
+
+{{/inline}}
+{{#*inline "RelationId"}}
+@RelationId(({{toPropertyName entityName}}:{{toEntityName entityName}})=>{{toPropertyName entityName}}.{{toPropertyName relationField}})
+{{printPropertyVisibility}}{{toPropertyName fieldName}}{{strictMode}}:{{fieldType}};
+
+{{/inline}}
+{{#*inline "Constructor"}}
+{{printPropertyVisibility}}constructor(init?: Partial<{{toEntityName entityName}}>) {
+    super();
+    Object.assign(this, init);
+}
+{{/inline}}
+{{#*inline "Entity"}}
+{{#indices}}{{> Index}}{{/indices~}}
+@Entity("{{sqlName}}"{{#schema}} ,{schema:"{{.}}"{{#if ../database}}, database:"{{../database}}"{{/if}} } {{/schema}}{{#tableComment}}, { comment: "{{.}}" }{{/tableComment}})
+export {{defaultExport}} class {{toEntityName tscName}} extends Base {
+
+{{#columns}}{{> Column}}{{/columns~}}
+{{#relations}}{{> Relation}}{{/relations~}}
+{{#relationIds}}{{> RelationId entityName=../tscName}}{{/relationIds~}}
+{{#if generateConstructor}}{{>Constructor entityName=tscName}}{{/if~}}
+}
+{{/inline}}
+import {BaseEntity,Column,Entity,Index,JoinColumn,JoinTable,ManyToMany,ManyToOne,OneToMany,OneToOne,PrimaryColumn,PrimaryGeneratedColumn,RelationId} from "typeorm";
+import { Base } from "./Base";
+{{#fileImports}}{{> Import}}{{/fileImports}}
+
+{{> Entity}}

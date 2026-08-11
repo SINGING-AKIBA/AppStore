@@ -1,0 +1,42 @@
+import { Get, Post,Inject,Query,Body } from '@midwayjs/core';
+import { Base } from "@/app/{{common_name}}/controller/Base";
+import { {{tscName}} as {{tscName}}Service } from '@/app/{{module}}/service/{{tscName}}';
+import { SmileController } from "@/decorator/controller";
+import { {{tscName}}Index,{{tscName}}Save,{{tscName}}Update,{{tscName}}Delete,{{tscName}}Detail } from '@/app/{{module}}/validate/{{tscName}}';
+
+
+@SmileController('/{{module}}/{{toLowerCase tscName}}',{tagName:'{{module}}/{{tableComment}}'})
+export class {{tscName}} extends Base { 
+    @Inject()
+    service:{{tscName}}Service;
+
+    @Get('/index')
+    async index(@Query() query: {{tscName}}Index){
+        this.success(await this.service.index(query));
+    }
+    
+    @Post('/add')
+    async add(@Body() body: {{tscName}}Save){
+        this.success(await this.service.add(body));
+    }
+    
+    @Get('/detail')
+    async detail(@Query() query: {{tscName}}Detail){
+        this.success(await this.service.detail(query));
+    }
+    
+    @Post('/update')
+    async update(@Body() body: {{tscName}}Update){
+        this.success(await this.service.update(body));
+    }
+    
+    @Post('/delete')
+    async delete(@Body() body: {{tscName}}Delete){
+        this.success(await this.service.delete(body));
+    }
+
+    @Get('/select')
+    async select(@Query() query: {{tscName}}Index){
+        this.success(await this.service.select(query));
+    }
+}

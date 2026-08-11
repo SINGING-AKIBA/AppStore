@@ -1,0 +1,12 @@
+import { Rule } from '@midwayjs/validation';
+import { ApiProperty } from '@midwayjs/swagger';
+import * as Joi from 'joi';
+import { Base } from "@/app/{{module}}/validate/Base";
+
+export class {{ tscName }} extends Base {
+{{#columns}}
+@Rule({{{ getJoiRule this }}})
+@ApiProperty({ description: '{{ options.comment }}'  })
+{{toPropertyName tscName}}: {{{ tscType }}};
+{{/columns}}
+}

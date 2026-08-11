@@ -1,0 +1,11 @@
+{
+  "name": "entity-scanner",
+  "version": "1.0.0",
+  "description": "扫描 model 目录自动生成 entities.ts 文件",
+  "bin": {
+    "entity-scanner": "./src/index.mjs"
+  },
+  "scripts": {
+    "start": "node ./src/index.mjs"
+  }
+}

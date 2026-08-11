@@ -1,0 +1,10 @@
+import { PickDto } from "@midwayjs/validation";
+import { {{tscName}} } from "@/app/{{common_name}}/validate/{{tscName}}";
+
+const filelds: (keyof {{tscName}})[] = [{{#each columns}}'{{tscName}}',{{/each}}]
+
+export class {{tscName}}Update extends PickDto({{tscName}}, filelds) {}
+export class {{tscName}}Save extends PickDto({{tscName}}, filelds) {}
+export class {{tscName}}Delete extends PickDto({{tscName}}, ["id","ids"]) {}
+export class {{tscName}}Detail extends PickDto({{tscName}}, ["id"]) {}
+export class {{tscName}}Index extends PickDto({{tscName}}, ["page", "pageSize"]) {}

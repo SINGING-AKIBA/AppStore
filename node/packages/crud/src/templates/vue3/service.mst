@@ -1,0 +1,59 @@
+import { Repository } from "typeorm"
+import { Provide} from "@midwayjs/core"
+import {InjectEntityModel} from '@midwayjs/typeorm';
+import { Base } from "@/app/{{ common_name }}/service/Base"
+import { {{ tscName }} as {{ tscName }}Model } from "@/app/{{ common_name }}/model/{{ tscName }}"
+
+@Provide()
+export class {{ tscName }} extends Base { 
+    @InjectEntityModel({{ tscName }}Model)
+    model: Repository<{{ tscName }}Model>
+    protected selectFields = [
+    {{#each selectFields}}
+        '{{this}}',
+    {{/each}}
+    ];
+    protected join:selectJoin[] = [
+        {{#each relations}}
+        { 
+            type: 'left',
+            name: '{{this.fieldName}}',
+        },
+        {{/each}}
+    ];
+    protected filterWhere() {
+        return {
+            {{#if where.equal}}
+            equal:[{{#each where.equal}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.like}}
+            like:[{{#each where.like}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.between}}
+            between:[{{#each where.between}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.in}}
+            in:[{{#each where.in}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.not}}
+            not:[{{#each where.not}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.isNull}}
+            isNull:[{{#each where.isnNll}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.moreThan}}
+            moreThan:[{{#each where.moreThan}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.lessThan}}
+            lessThan:[{{#each where.lessThan}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.moreThanOrEqual}}
+            moreThanOrEqual:[{{#each where.moreThanOrEqual}}"{{this}}",{{/each}}],
+            {{/if}}
+            {{#if where.lessThanOrEqual}}
+            lessThanOrEqual:[{{#each where.lessThanOrEqual}}"{{this}}",{{/each}}],
+            {{/if}}
+        }
+        
+    }
+}

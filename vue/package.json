@@ -1,0 +1,94 @@
+{
+  "name": "smileadmin",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.js",
+  "description": "Smile Admin - A powerful admin panel built with Vue3, Ant Design Vue and Electron",
+  "author": "Smile Team",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
+    "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
+    "dev-ele": "concurrently \"vite\" \"electron .\"",
+    "build-ele": "vite build && electron-builder"
+  },
+  "dependencies": {
+    "@ant-design-vue/pro-layout": "^3.2.5",
+    "@ant-design/icons-vue": "^7.0.1",
+    "@antv/g2plot": "^2.4.32",
+    "@dataview/datav-vue3": "0.0.0-test.1672506674342",
+    "ant-design-vue": "4.x",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "echarts": "^6.0.0",
+    "lodash": "^4.17.21",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.2.6",
+    "store": "^2.0.12",
+    "vue": "^3.5.13",
+    "vue-i18n": "10",
+    "vue-router": "^4.4.5",
+    "vue-ueditor-wrap": "^3.0.6",
+    "vuedraggable": "^4.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "@vue/test-utils": "^2.4.6",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "cssnano": "^7.0.6",
+    "cypress": "^13.16.0",
+    "electron": "^25.9.8",
+    "electron-builder": "^24.13.3",
+    "fast-glob": "^3.3.2",
+    "jsdom": "^25.0.1",
+    "less": "^4.2.1",
+    "postcss": "^8.4.49",
+    "postcss-preset-env": "^10.1.2",
+    "start-server-and-test": "^2.0.8",
+    "vite": "^6.0.1",
+    "vite-plugin-pwa": "^0.21.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-devtools": "^7.6.5",
+    "vitest": "^2.1.5"
+  },
+  "build": {
+    "appId": "com.smileadmin.app",
+    "productName": "Smile Admin",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json",
+      "!node_modules/vcolorpicker/**/*"
+    ],
+    "asarUnpack": [
+      "!node_modules/vcolorpicker/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "packageManager": "pnpm@8.15.8+sha512.d1a029e1a447ad90bc96cd58b0fad486d2993d531856396f7babf2d83eb1823bb83c5a3d0fc18f675b2d10321d49eb161fece36fe8134aa5823ecd215feed392"
+}
