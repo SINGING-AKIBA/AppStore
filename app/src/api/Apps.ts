@@ -1,7 +1,7 @@
 import request from "@/smile/service/request"
 
 export const userApi = {
-  info: "/apps/info",
+  info: "/appInfo/detail",
 };
 export function info(params:any) {
   return request.get(userApi.info, params)

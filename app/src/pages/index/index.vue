@@ -520,6 +520,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 // ============================================================
 //  Apple Design System — 下载页面 v4
 //  设计语言：纯净 · 精致 · 光影层次 · 微动效 · 响应式
@@ -1034,7 +1036,7 @@ $radius-sm: 12px;
 	width: 3px;
 	height: 18px;
 	border-radius: 2px;
-	background: linear-gradient(180deg, $ios, lighten($ios, 20%));
+	background: linear-gradient(180deg, $ios, color.adjust($ios, $lightness: 20%));
 	flex-shrink: 0;
 }
 

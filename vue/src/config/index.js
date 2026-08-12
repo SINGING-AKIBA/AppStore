@@ -15,7 +15,7 @@ export default {
         menu: {
             locale: true
         },
-        title: 'Digital AI Center',
+        title: 'APP STORE',
         iconfontUrl: '',
         production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
         logo: '',// logo url or false

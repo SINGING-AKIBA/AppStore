@@ -14,11 +14,11 @@ export class AppScreenshot extends Base {
 
   @Column("enum", {
     name: "platform",
-    comment: "适用平台:ios=iOS,android=安卓",
-    enum: ["ios", "android"],
-    default: () => "android",
+    comment: "适用平台:ios=iOS,android=安卓,both=通用",
+    enum: ["ios", "android", "both"],
+    default: () => "both",
   })
-  platform: "ios" | "android";
+  platform: "ios" | "android" | "both";
 
   @Column("int", {
     name: "sort_order",

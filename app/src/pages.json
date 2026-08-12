@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "智能助手",
+				"navigationBarTitleText": "APP-STORE",
 				"navigationBarTextStyle": "black",
 				"navigationStyle": "custom"
 			}
@@ -11,6 +11,6 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "智能助手"
+		"navigationBarTitleText": "APP-STORE"
 	}
 }

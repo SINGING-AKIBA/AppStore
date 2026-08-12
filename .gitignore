@@ -29,3 +29,31 @@ coverage
 
 *.tsbuildinfo
 .codegraph
+.vscode
+
+# 环境变量（含密钥，勿上传；保留 .env.dist 模板）
+.env
+.env.*
+!.env.dist
+
+# 测试产物
+/cypress/videos/
+/cypress/screenshots/
+vue/cypress/videos/
+vue/cypress/screenshots/
+
+# 缓存与临时目录
+.cache/
+.temp/
+.tmp/
+.pkg-cache
+
+# 本地 Claude 配置
+.claude/
+
+# node/ 项目运行与构建产物
+node/run/
+node/build/
+node/release/
+node/public/storage/*
+node/.pkg-cache

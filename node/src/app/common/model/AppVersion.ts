@@ -25,7 +25,7 @@ export class AppVersion extends Base {
   @Column("varchar", {
     name: "size",
     nullable: true,
-    comment: '安装包大小，如 "42.5 MB"',
+    comment: "安装包大小",
     length: 20,
   })
   size: string | null;
@@ -79,14 +79,6 @@ export class AppVersion extends Base {
   })
   changelog: string | null;
 
-  @Column("varchar", {
-    name: "platform",
-    comment: "适用平台:ios=iOS,android=安卓",
-    length: 44,
-    default: () => "android",
-  })
-  platform: string;
-
   @Column("tinyint", {
     name: "force_update_switch",
     comment: "强制更新开关:0=非强制,1=强制",
@@ -102,6 +94,13 @@ export class AppVersion extends Base {
     default: () => "10",
   })
   status: number;
+
+  @Column("tinyint", {
+    name: "update_type",
+    comment: "更新类型:10=热更新,20=下载安装包",
+    default: () => "10",
+  })
+  update_type: number;
 
   @Column("datetime", {
     name: "publish_time",

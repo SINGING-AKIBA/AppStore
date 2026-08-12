@@ -1,5 +1,5 @@
 {
-    "name" : "Agent",
+    "name" : "APP-STORE",
     "appid" : "__UNI__9185BB5",
     "description" : "",
     "versionName" : "1.0.0",
@@ -126,9 +126,9 @@
         "devServer" : {
             "https" : false
         },
-        "title" : "Agent",
+        "title" : "APP-STORE",
         "router" : {
-            "base" : "/wecom/",
+            "base" : "/h5/",
             "mode" : "hash"
         }
     }
