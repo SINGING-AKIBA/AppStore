@@ -12,7 +12,7 @@ export default {
         host: '127.0.0.1',
         port: 3306,
         username: 'dowload',
-        password: '',
+        password: 'RHprHQyBF4ZFiGQG',
         database: 'dowload',
         synchronize: false,
         logging: false,

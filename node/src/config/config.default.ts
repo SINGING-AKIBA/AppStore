@@ -46,7 +46,7 @@ export default {
   },
   busboy: {
     mode: 'file',
-    whitelist:[...uploadWhiteList,'.xlsx','.xls','.csv']
+    whitelist:[...uploadWhiteList,'.xlsx','.xls','.csv','.apk','.wgt','.ppt','.pptx','.pdf','.txt'],
   },
   staticFile: {
     dirs: {

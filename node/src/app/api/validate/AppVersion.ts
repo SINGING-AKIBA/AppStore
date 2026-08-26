@@ -12,7 +12,6 @@ const filelds: (keyof AppVersion)[] = [
   "ios_appstore",
   "android_url",
   "changelog",
-  "platform",
   "force_update_switch",
   "status",
   "publish_time",

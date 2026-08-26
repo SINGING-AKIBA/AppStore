@@ -34,9 +34,6 @@ android_url: string;
 @Rule(Joi.string().optional().allow(null,'').label("更新日志/新特性说明"))
 @ApiProperty({ description: '更新日志/新特性说明'  })
 changelog: string;
-@Rule(Joi.string().max(44).valid("ios", "android").required().label("适用平台"))
-@ApiProperty({ description: '适用平台:ios=iOS,android=安卓'  })
-platform: string;
 @Rule(Joi.number().min(0).max(255).valid(0, 1).required().label("强制更新开关"))
 @ApiProperty({ description: '强制更新开关:0=非强制,1=强制'  })
 force_update_switch: number;
