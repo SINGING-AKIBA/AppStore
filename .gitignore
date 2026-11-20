@@ -57,3 +57,4 @@ node/build/
 node/release/
 node/public/storage/*
 node/.pkg-cache
+pnpm-lock.yaml
