@@ -9,6 +9,8 @@ export default {
   keys: 'e472943d-c660-4815-97a0-014c0b853978',
   koa: {
     port: 7010,
+    // 位于 nginx 之后，信任 X-Forwarded-* 头，ctx.protocol / ctx.ip 才会正确
+    proxy: true,
   },
   validation: {
     validators: {

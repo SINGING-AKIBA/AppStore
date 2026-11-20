@@ -4,6 +4,7 @@ export default {
   keys: '384d4112-1dea-40f1-93e4-72d8d6842688',
   koa: {
     port: parseInt(process.env.POST || '7010', 10),
+    proxy: true,
   },
   typeorm: {
     dataSource: {

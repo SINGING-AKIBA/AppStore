@@ -30,6 +30,7 @@ export class Menu extends Base {
     let menus;
     if (list.length > 0) {
       menus = await this.filterMenu(list);
+      console.log(JSON.stringify(menus));
       menus = await this.treeData(menus);
       return params.list ? await this.listMenu(menus) : await this.formatMenu(menus);
     } else {
