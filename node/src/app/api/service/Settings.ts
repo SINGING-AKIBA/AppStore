@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { Provide } from "@midwayjs/core";
+import { Inject, Provide } from "@midwayjs/core";
 import { InjectEntityModel } from "@midwayjs/typeorm";
 import { Base } from "@/app/common/service/Base";
 import { Settings as SettingsModel } from "@/app/common/model/Settings";
@@ -29,6 +29,6 @@ export class Settings extends Base {
     }
 
     // Only return image locations; never expose arbitrary setting content to the client.
-    return /^(https?:\\/\\/|\\/|data:image\\/)/i.test(logo) ? logo : "";
+    return /^(https?:\/\/|\/|data:image\/)/i.test(logo) ? logo : "";
   }
 }
