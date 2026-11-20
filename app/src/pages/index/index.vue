@@ -1,50 +1,30 @@
 <template>
 	<view class="app-list-page">
-		<view class="status-bar" />
+		<view class="app-list-header">
+			<view class="status-bar" />
+			<view class="header-bar">
+				<view class="header-brand" :class="{ 'is-hidden': searchExpanded }">
+					<image class="header-logo" :src="logoUrl" mode="aspectFit" />
+				</view>
 
-		<view class="list-hero">
-			<view class="hero-orb hero-orb-one" />
-			<view class="hero-orb hero-orb-two" />
-			<view class="hero-topline">
-				<view class="hero-brand">
-					<view class="brand-mark">✦</view>
-					<view class="brand-copy">
-						<text class="brand-name">APP STORE</text>
-						<text class="brand-caption">CURATED APPS</text>
+				<view class="header-search" :class="{ 'is-expanded': searchExpanded }">
+					<input
+						v-if="searchExpanded"
+						class="search-input"
+						:value="keyword"
+						:placeholder="t('apps.search')"
+						:focus="searchExpanded"
+						confirm-type="search"
+						@input="handleSearchInput"
+					/>
+					<view class="search-toggle" @tap.stop="toggleSearch">
+						<view v-if="!searchExpanded" class="search-icon" />
+						<text v-else class="search-close">×</text>
 					</view>
 				</view>
-				<view class="hero-badge">
-					<view class="hero-badge-dot" />
-					<text>DISCOVER</text>
-				</view>
-			</view>
-
-			<view class="hero-heading">
-				<text class="hero-eyebrow">FIND YOUR NEXT FAVORITE</text>
-				<text class="page-title">{{ t('apps.title') }}</text>
-				<text class="page-subtitle">{{ t('apps.subtitle') }}</text>
-			</view>
-
-			<view class="search-box">
-				<view class="search-icon" />
-				<input
-					class="search-input"
-					:value="keyword"
-					:placeholder="t('apps.search')"
-					confirm-type="search"
-					@input="handleSearchInput"
-				/>
-				<view v-if="keyword" class="search-clear" @tap.stop="keyword = ''">
-					<text>×</text>
-				</view>
-			</view>
-
-			<view class="list-overview">
-				<text class="result-count">{{ t('apps.count', { count: filteredApps.length }) }}</text>
-				<view class="overview-dot" />
-				<text class="overview-caption">{{ t('apps.subtitleShort') }}</text>
 			</view>
 		</view>
+		<view class="header-placeholder" />
 		<view class="list-content">
 			<view v-if="loading && !apps.length" class="skeleton-list">
 				<view v-for="item in 3" :key="item" class="skeleton-card">
@@ -123,6 +103,8 @@
 import { computed, ref } from 'vue'
 import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { list as getApps } from '@/api/Apps'
+import { getAppStoreLogo } from '@/api/Settings'
+import defaultLogo from '@/logo.png'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -132,6 +114,8 @@ const loading = ref(false)
 const loadingMore = ref(false)
 const loadError = ref(false)
 const keyword = ref('')
+const searchExpanded = ref(false)
+const logoUrl = ref(defaultLogo)
 const apps = ref([])
 const currentPage = ref(0)
 const lastPage = ref(1)
@@ -149,6 +133,29 @@ const filteredApps = computed(() => {
 
 function handleSearchInput(event) {
 	keyword.value = event?.detail?.value ?? ''
+}
+
+function toggleSearch() {
+	if (searchExpanded.value) {
+		searchExpanded.value = false
+		keyword.value = ''
+		return
+	}
+	searchExpanded.value = true
+}
+
+async function loadAppStoreLogo() {
+	try {
+		const response = await getAppStoreLogo()
+		const value = response?.data
+		const configuredLogo = typeof value === 'string'
+			? value.trim()
+			: String(value?.logo || value?.url || value?.src || '').trim()
+		if (configuredLogo) logoUrl.value = configuredLogo
+	} catch (error) {
+		// Keep the bundled logo when the optional backend branding setting is unavailable.
+		console.warn('[App Store] 加载后台 Logo 配置失败，使用默认 Logo:', error)
+	}
 }
 
 function appInitial(name) {
@@ -232,6 +239,7 @@ onLoad((options) => {
 		})
 		return
 	}
+	loadAppStoreLogo()
 	loadApps(true)
 })
 
@@ -249,233 +257,131 @@ onReachBottom(() => loadApps(false))
 	-webkit-font-smoothing: antialiased;
 }
 
+.app-list-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	background: rgba(255, 255, 255, 0.97);
+	box-shadow: 0 4px 18px rgba(31, 54, 88, 0.07);
+}
+
 .status-bar {
 	height: var(--status-bar-height, 44px);
-	background: #f4f7fc;
+	background: #fff;
 }
 
-.list-hero {
+.header-bar {
 	position: relative;
-	overflow: hidden;
-	padding: 22px 22px 22px;
-	border-radius: 0 0 32px 32px;
-	background:
-		radial-gradient(circle at 88% 4%, rgba(137, 164, 236, 0.2), transparent 34%),
-		linear-gradient(145deg, #f9fbff 0%, #edf4ff 58%, #f3f0ff 100%);
-	color: #1b2d49;
-}
-
-.hero-orb {
-	position: absolute;
-	border-radius: 50%;
-	pointer-events: none;
-}
-
-.hero-orb-one {
-	width: 250px;
-	height: 250px;
-	top: -150px;
-	right: -86px;
-	background: radial-gradient(circle, rgba(112, 151, 226, 0.2) 0%, rgba(112, 151, 226, 0) 72%);
-}
-
-.hero-orb-two {
-	width: 220px;
-	height: 220px;
-	bottom: -155px;
-	left: 18px;
-	background: radial-gradient(circle, rgba(163, 145, 232, 0.14) 0%, rgba(163, 145, 232, 0) 72%);
-}
-
-.hero-topline,
-.hero-heading {
-	position: relative;
-	z-index: 1;
-}
-
-.hero-topline {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 30px;
-}
-
-.hero-brand {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.brand-mark {
-	width: 40px;
-	height: 40px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 1px solid rgba(255, 255, 255, 0.7);
-	border-radius: 13px;
-	background: linear-gradient(140deg, #6e9de0 0%, #806fd0 100%);
-	box-shadow: 0 8px 18px rgba(79, 111, 180, 0.2);
-	color: #fff;
-	font-size: 19px;
-}
-
-.brand-copy {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
-.brand-name {
-	color: #263e61;
-	font-size: 12px;
-	font-weight: 800;
-	letter-spacing: 1.8px;
-}
-
-.brand-caption {
-	color: #91a0b6;
-	font-size: 9px;
-	font-weight: 600;
-	letter-spacing: 1.2px;
-}
-
-.hero-badge {
-	display: flex;
-	align-items: center;
-	gap: 7px;
-	padding: 7px 10px;
-	border: 1px solid rgba(215, 226, 243, 0.9);
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.68);
-	color: #7186a5;
-	font-size: 9px;
-	font-weight: 700;
-	letter-spacing: 1px;
-}
-
-.hero-badge-dot {
-	width: 6px;
-	height: 6px;
-	border-radius: 50%;
-	background: #6e9de0;
-	box-shadow: 0 0 0 3px rgba(110, 157, 224, 0.13);
-}
-
-.hero-eyebrow {
-	display: block;
-	margin-bottom: 8px;
-	color: #7d91b0;
-	font-size: 10px;
-	font-weight: 700;
-	letter-spacing: 1.6px;
-}
-
-.page-title {
-	display: block;
-	color: #1c3150;
-	font-size: 32px;
-	font-weight: 800;
-	line-height: 1.18;
-	letter-spacing: -1px;
-}
-
-.page-subtitle {
-	display: block;
-	margin-top: 8px;
-	color: #71839d;
-	font-size: 13px;
-	line-height: 1.6;
-}
-
-.search-box {
-	position: relative;
-	z-index: 1;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	height: 54px;
-	margin-top: 23px;
+	height: 62px;
 	padding: 0 16px;
-	border: 1px solid rgba(220, 230, 245, 0.95);
-	border-radius: 18px;
-	background: rgba(255, 255, 255, 0.96);
-	box-shadow: 0 12px 28px rgba(47, 78, 122, 0.1);
 }
 
-.search-icon {
-	position: relative;
-	width: 16px;
-	height: 16px;
-	flex: 0 0 16px;
-	border: 2px solid #8496af;
-	border-radius: 50%;
+.header-brand {
+	display: flex;
+	align-items: center;
+	height: 44px;
+	opacity: 1;
+	transition: opacity 0.18s ease;
 }
 
-.search-icon::after {
+.header-brand.is-hidden {
+	opacity: 0;
+}
+
+.header-logo {
+	display: block;
+	width: 42px;
+	height: 42px;
+	border-radius: 11px;
+}
+
+.header-search {
 	position: absolute;
-	right: -5px;
-	bottom: -3px;
-	width: 7px;
-	height: 2px;
-	border-radius: 2px;
-	background: #8496af;
-	content: "";
-	transform: rotate(45deg);
+	top: 50%;
+	right: 16px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	width: 44px;
+	height: 44px;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: transparent;
+	transform: translateY(-50%);
+	transform-origin: right center;
+	transition:
+		width 0.28s cubic-bezier(0.2, 0.75, 0.2, 1),
+		background-color 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.header-search.is-expanded {
+	width: calc(100% - 32px);
+	max-width: 420px;
+	border-color: #e6edf6;
+	background: #f7f9fc;
+	box-shadow: 0 5px 16px rgba(34, 59, 94, 0.08);
 }
 
 .search-input {
 	flex: 1;
 	min-width: 0;
+	width: 0;
 	height: 100%;
-	color: #263b59;
+	padding: 0 4px 0 15px;
+	color: #253953;
 	font-size: 14px;
+	opacity: 1;
 }
 
-.search-clear {
-	width: 27px;
-	height: 27px;
+.search-toggle {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 50%;
-	background: #f0f4fa;
-	color: #74859d;
-	font-size: 20px;
+	flex: 0 0 44px;
+	width: 44px;
+	height: 44px;
 }
 
-.list-overview {
+.search-icon {
 	position: relative;
-	z-index: 1;
-	display: flex;
-	align-items: center;
-	gap: 9px;
-	margin-top: 17px;
-}
-
-.result-count {
-	padding: 6px 10px;
-	border-radius: 999px;
-	background: rgba(221, 235, 255, 0.88);
-	color: #4775b2;
-	font-size: 11px;
-	font-weight: 700;
-}
-
-.overview-dot {
-	width: 4px;
-	height: 4px;
+	width: 17px;
+	height: 17px;
+	border: 2px solid #526985;
 	border-radius: 50%;
-	background: #a9b9d0;
 }
 
-.overview-caption {
-	color: #8a9ab1;
-	font-size: 11px;
+.search-icon::after {
+	position: absolute;
+	right: -6px;
+	bottom: -3px;
+	width: 8px;
+	height: 2px;
+	border-radius: 2px;
+	background: #526985;
+	content: "";
+	transform: rotate(45deg);
+}
+
+.search-close {
+	color: #657790;
+	font-size: 25px;
+	font-weight: 300;
+	line-height: 1;
+}
+
+.header-placeholder {
+	height: calc(var(--status-bar-height, 44px) + 62px);
 }
 
 .list-content {
-	padding: 20px 16px 0;
+	padding: 16px 16px 0;
 }
 
 .app-card {

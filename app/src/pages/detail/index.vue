@@ -53,12 +53,9 @@
 		<!-- 顶部状态栏与详情导航 -->
 		<view class="status-bar" />
 		<view class="detail-nav">
-			<view class="nav-back" @click="handleBack">
+			<view class="nav-back" @tap="handleBack">
 				<text class="nav-back-icon">‹</text>
-				<text>{{ t('index.detailBack') }}</text>
 			</view>
-			<text class="nav-title">{{ t('index.detailTitle') }}</text>
-			<view class="nav-placeholder" />
 		</view>
 
 		<!-- ====== 加载骨架屏 ====== -->
@@ -1700,38 +1697,27 @@ $radius-sm: 12px;
 	position: relative;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-start;
 	height: 44px;
-	padding: 0 20px;
+	padding: 0 16px;
 	background: #f5f8fd;
 }
 
 .nav-back {
 	display: flex;
 	align-items: center;
-	gap: 3px;
-	min-width: 70px;
-	height: 36px;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.9);
 	color: #315b90;
-	font-size: 13px;
+	box-shadow: 0 3px 10px rgba(35, 66, 105, 0.07);
 }
 
 .nav-back-icon {
 	font-size: 32px;
 	line-height: 28px;
-}
-
-.nav-title {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	color: #1d2a3f;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-.nav-placeholder {
-	width: 70px;
 }
 
 .hero {
