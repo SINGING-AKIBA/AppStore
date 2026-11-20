@@ -277,6 +277,8 @@ INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`,
 
 INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (817, 30, 811, '导出', '/grade/Export', '', 100, 10, 10, 20, 1778137821, 1778137821, 0, NULL);
 
+INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (818, 20, 54, '品牌设置', '/setting/Brand', '', 30, 10, 10, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 0, NULL);
+
 
 INSERT INTO `smile_rules` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`, `v6`) VALUES (4, 'g', 'admin', '开发', NULL, NULL, NULL, NULL, NULL);
 
@@ -317,6 +319,8 @@ INSERT INTO `smile_rules` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`, `v
 INSERT INTO `smile_rules` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`, `v6`) VALUES (22, 'p', '开发', 'category', 'export', NULL, NULL, NULL, NULL);
 
 INSERT INTO `smile_rules` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`, `v6`) VALUES (23, 'g', 'singing', '开发', NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO `smile_rules` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`, `v6`) VALUES (24, 'p', '开发', 'setting', 'brand', NULL, NULL, NULL, NULL);
 
 INSERT INTO `smile_uploads_group` (`id`, `name`, `pid`, `sort`, `is_delete`, `create_time`, `update_time`, `delete_time`) VALUES (1, '营业执照', 0, 100, 0, 1780367804, 1780367804, 0);
 

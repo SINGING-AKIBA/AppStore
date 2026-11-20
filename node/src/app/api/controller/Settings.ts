@@ -22,4 +22,9 @@ export class Settings extends Base {
     this.success(await this.service.appStoreLogo());
   }
 
+  @Get("/app-store-branding")
+  async appStoreBranding() {
+    this.success(await this.service.appStoreBranding());
+  }
+
 }
