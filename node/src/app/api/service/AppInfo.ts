@@ -32,6 +32,15 @@ export class AppInfo extends Base {
       in: ["id"],
     };
   }
+  async index(query: any) {
+    // Public app catalog: expose published apps only and keep curated order stable.
+    return super.index({
+      ...query,
+      status: 10,
+      orderBy: { sort_order: "DESC", id: "DESC" },
+    }, false);
+  }
+
   async detail(query:any) {
     const detail = await this.model.findOne({
       where: {id: query.id || 1},

@@ -1,8 +1,14 @@
 import request from "@/smile/service/request"
 
-export const userApi = {
-  info: "/appInfo/detail",
+export const appApi = {
+  index: "/appinfo/index",
+  info: "/appinfo/detail",
 };
-export function info(params:any) {
-  return request.get(userApi.info, params)
+
+export function list(params: any = {}) {
+  return request.get(appApi.index, params)
+}
+
+export function info(params: any) {
+  return request.get(appApi.info, params)
 }
