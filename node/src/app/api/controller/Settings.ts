@@ -17,4 +17,9 @@ export class Settings extends Base {
     this.success(await this.service.detail(query));
   }
 
+  @Get("/app-store-logo")
+  async appStoreLogo() {
+    this.success(await this.service.appStoreLogo());
+  }
+
 }
