@@ -6,8 +6,8 @@
 				<view class="header-brand" :class="{ 'is-hidden': searchExpanded }">
 					<image class="header-logo" :src="logoUrl" mode="aspectFit" />
 					<view class="brand-copy">
-						<text class="brand-name">APP STORE</text>
-						<text class="brand-caption">CURATED APPS</text>
+						<text class="brand-name">{{ brandTitle }}</text>
+						<text class="brand-caption">{{ brandSubtitle }}</text>
 					</view>
 				</view>
 
@@ -108,7 +108,7 @@
 import { computed, ref } from 'vue'
 import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { list as getApps } from '@/api/Apps'
-import { getAppStoreLogo } from '@/api/Settings'
+import { getAppStoreBranding } from '@/api/Settings'
 import { trackAnalytics } from '@/utils/analytics'
 import defaultLogo from '@/logo.png'
 import { useI18n } from 'vue-i18n'
@@ -122,6 +122,8 @@ const loadError = ref(false)
 const keyword = ref('')
 const searchExpanded = ref(false)
 const logoUrl = ref(defaultLogo)
+const brandTitle = ref('APP STORE')
+const brandSubtitle = ref('CURATED APPS')
 const apps = ref([])
 const currentPage = ref(0)
 const lastPage = ref(1)
@@ -161,17 +163,17 @@ function toggleSearch() {
 	searchExpanded.value = true
 }
 
-async function loadAppStoreLogo() {
+async function loadAppStoreBranding() {
 	try {
-		const response = await getAppStoreLogo()
-		const value = response?.data
-		const configuredLogo = typeof value === 'string'
-			? value.trim()
-			: String(value?.logo || value?.url || value?.src || '').trim()
+		const response = await getAppStoreBranding()
+		const value = response?.data || {}
+		const configuredLogo = String(value.logo || '').trim()
 		if (configuredLogo) logoUrl.value = configuredLogo
+		brandTitle.value = String(value.title || 'APP STORE').trim() || 'APP STORE'
+		brandSubtitle.value = String(value.subtitle || 'CURATED APPS').trim() || 'CURATED APPS'
 	} catch (error) {
-		// Keep the bundled logo when the optional backend branding setting is unavailable.
-		console.warn('[App Store] 加载后台 Logo 配置失败，使用默认 Logo:', error)
+		// Keep bundled defaults when the optional backend branding setting is unavailable.
+		console.warn('[App Store] 加载后台品牌配置失败，使用默认品牌信息:', error)
 	}
 }
 
@@ -257,7 +259,7 @@ onLoad((options) => {
 		return
 	}
 	trackAnalytics({ event_type: 'page_view', page_path: '/pages/index/index' })
-	loadAppStoreLogo()
+	loadAppStoreBranding()
 	loadApps(true)
 })
 
