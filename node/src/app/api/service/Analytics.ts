@@ -2,7 +2,7 @@ import { Provide } from "@midwayjs/core";
 import { InjectEntityModel } from "@midwayjs/typeorm";
 import { Repository } from "typeorm";
 import { AnalyticsEvent } from "@/app/common/model/AnalyticsEvent";
-import { AnalyticsCollect } from "@/app/api/validate/Analytics";
+import type { AnalyticsCollect } from "@/app/api/validate/Analytics";
 
 @Provide()
 export class Analytics {
