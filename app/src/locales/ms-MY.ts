@@ -19,6 +19,9 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'info': 'Maklumat',
     // Versi
     'version': 'Versi',
+    'detailTitle': 'Butiran aplikasi',
+    'detailBack': 'Kembali',
+    'ratingCount': '{count} penilaian',
     // Pengaki
     'footer': {
       'copyright': '© {year} {company}. Hak cipta terpelihara.',
@@ -61,6 +64,26 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
       'redirecting': 'Sedang dialihkan',
       'emptyData': 'Tiada data',
     },
+  },
+  'apps': {
+    'title': 'Senarai Aplikasi',
+    'subtitle': 'Temui aplikasi pilihan yang berbaloi disimpan.',
+    'subtitleShort': 'Pilihan untuk anda',
+    'search': 'Cari aplikasi, pembangun atau kategori',
+    'count': '{count} aplikasi',
+    'defaultTagline': 'Aplikasi pilihan untuk diterokai',
+    'categoryFallback': 'Aplikasi',
+    'emptyTitle': 'Belum ada aplikasi tersedia',
+    'emptyDesc': 'Tiada aplikasi yang diterbitkan buat masa ini. Sila datang lagi nanti.',
+    'noResultsTitle': 'Tiada aplikasi sepadan',
+    'noResultsDesc': 'Cuba kata kunci lain atau cari menggunakan nama aplikasi.',
+    'errorTitle': 'Senarai aplikasi gagal dimuatkan',
+    'errorDesc': 'Semak sambungan anda dan cuba lagi.',
+    'retry': 'Cuba lagi',
+    'loadingMore': 'Memuatkan lebih banyak aplikasi…',
+    'loadMore': 'Ketik untuk memuatkan lagi',
+    'allLoaded': 'Anda sudah melihat semuanya',
+    'loadFailed': 'Tidak dapat memuatkan aplikasi. Sila cuba lagi.',
   },
 }
 

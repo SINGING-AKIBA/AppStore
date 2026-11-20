@@ -19,6 +19,9 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'info': 'Info',
     // Version
     'version': 'Version',
+    'detailTitle': 'App details',
+    'detailBack': 'Back',
+    'ratingCount': '{count} ratings',
     // Footer
     'footer': {
       'copyright': '© {year} {company}. All rights reserved.',
@@ -61,6 +64,26 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
       'redirecting': 'Redirecting',
       'emptyData': 'No data available',
     },
+  },
+  'apps': {
+    'title': 'Apps',
+    'subtitle': 'Discover apps worth keeping.',
+    'subtitleShort': 'Curated for you',
+    'search': 'Search apps, developers or categories',
+    'count': '{count} apps',
+    'defaultTagline': 'A thoughtfully selected app',
+    'categoryFallback': 'App',
+    'emptyTitle': 'No apps available yet',
+    'emptyDesc': 'There are no published apps to show right now. Please check back soon.',
+    'noResultsTitle': 'No matching apps',
+    'noResultsDesc': 'Try another keyword or search by app name.',
+    'errorTitle': 'Could not load apps',
+    'errorDesc': 'Check your connection and try again.',
+    'retry': 'Try again',
+    'loadingMore': 'Loading more apps…',
+    'loadMore': 'Tap to load more',
+    'allLoaded': 'You’re all caught up',
+    'loadFailed': 'Unable to load apps. Please try again.',
   },
 }
 

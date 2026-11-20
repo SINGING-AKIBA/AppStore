@@ -19,6 +19,9 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'info': '信息',
     // 版本
     'version': '版本',
+    'detailTitle': '应用详情',
+    'detailBack': '返回',
+    'ratingCount': '{count} 条评分',
     // 页脚
     'footer': {
       'copyright': '© {year} {company} 版权所有。',
@@ -61,6 +64,26 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
       'redirecting': '正在跳转',
       'emptyData': '暂无数据',
     },
+  },
+  'apps': {
+    'title': '应用列表',
+    'subtitle': '发现值得收藏的好应用',
+    'subtitleShort': '为你精选',
+    'search': '搜索应用名称、开发者或分类',
+    'count': '{count} 款应用',
+    'defaultTagline': '精选应用，等你探索',
+    'categoryFallback': '应用',
+    'emptyTitle': '暂无上架应用',
+    'emptyDesc': '暂时还没有可展示的应用，稍后再来看看。',
+    'noResultsTitle': '没有找到相关应用',
+    'noResultsDesc': '试试其他关键词，或搜索应用名称。',
+    'errorTitle': '应用列表加载失败',
+    'errorDesc': '请检查网络连接后重试。',
+    'retry': '重新加载',
+    'loadingMore': '正在加载更多应用…',
+    'loadMore': '点击加载更多',
+    'allLoaded': '已经到底啦',
+    'loadFailed': '加载失败，请稍后重试。',
   },
 }
 
