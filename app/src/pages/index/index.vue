@@ -5,6 +5,10 @@
 			<view class="header-bar">
 				<view class="header-brand" :class="{ 'is-hidden': searchExpanded }">
 					<image class="header-logo" :src="logoUrl" mode="aspectFit" />
+					<view class="brand-copy">
+						<text class="brand-name">APP STORE</text>
+						<text class="brand-caption">CURATED APPS</text>
+					</view>
 				</view>
 
 				<view class="header-search" :class="{ 'is-expanded': searchExpanded }">
@@ -298,9 +302,34 @@ onReachBottom(() => loadApps(false))
 .header-brand {
 	display: flex;
 	align-items: center;
+	gap: 11px;
 	height: 44px;
 	opacity: 1;
 	transition: opacity 0.18s ease;
+}
+
+.brand-copy {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 3px;
+	min-width: 0;
+}
+
+.brand-name {
+	color: #203653;
+	font-size: 15px;
+	font-weight: 750;
+	letter-spacing: 0.08em;
+	line-height: 1.1;
+}
+
+.brand-caption {
+	color: #8a98ab;
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	line-height: 1;
 }
 
 .header-brand.is-hidden {

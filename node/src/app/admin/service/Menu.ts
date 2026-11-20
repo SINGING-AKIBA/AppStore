@@ -48,8 +48,7 @@ export class Menu extends Base {
       const path = menu.path.split('/').filter(Boolean);
       const controller = path[0].toLowerCase();
       const action = (path[1] || 'smile').toLowerCase();
-      // Analytics is a platform-wide read-only report for authenticated administrators.
-      if (controller === 'analytics' || await this.casbin.enforce(user.username, controller, action)) {
+      if (await this.casbin.enforce(user.username, controller, action)) {
         menus.push(menu);
       }
     }

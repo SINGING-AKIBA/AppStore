@@ -215,7 +215,7 @@ INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`,
 
 INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (63, 10, 0, '首页', '/index', 'home', 1, 10, 10, 10, 1652774670, 1736092894, 0, NULL);
 
-INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (64, 20, 63, '数据看板', '/index/Index', '', 2, 10, 10, 10, 1652775376, 1738897508, 0, NULL);
+INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (64, 20, 63, '数据统计', '/index/Index', 'bar-chart', 2, 10, 10, 10, 1652775376, 1738897508, 0, NULL);
 
 INSERT INTO `smile_menu` (`id`, `type`, `pid`, `title`, `path`, `icon`, `weigh`, `status`, `target`, `show`, `create_time`, `update_time`, `is_delete`, `delete_time`) VALUES (67, 10, 0, '文件管理', '/file', 'file', 3, 10, 10, 10, 1652924961, 1736145971, 0, NULL);
 
