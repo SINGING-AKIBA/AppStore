@@ -2,7 +2,7 @@
 	<view class="app-list-page">
 		<view class="status-bar" />
 
-		<header class="list-hero">
+		<view class="list-hero">
 			<view class="hero-orb hero-orb-one" />
 			<view class="hero-orb hero-orb-two" />
 			<view class="hero-brand">
@@ -32,7 +32,7 @@
 				<view class="overview-dot" />
 				<text class="overview-caption">{{ t('apps.subtitleShort') }}</text>
 			</view>
-		</header>
+		</view>
 
 		<view class="list-content">
 			<view v-if="loading && !apps.length" class="skeleton-list">
