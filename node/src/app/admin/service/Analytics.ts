@@ -31,6 +31,9 @@ export class Analytics {
     if (!start.isValid() || !end.isValid() || start.isAfter(end)) {
       throw new Error("统计日期范围无效");
     }
+    if (end.diff(start, "day") > 366) {
+      throw new Error("统计日期范围不能超过366天");
+    }
 
     return {
       startDate: start.format("YYYY-MM-DD"),
@@ -63,7 +66,8 @@ export class Analytics {
       this.appModel.count({ where: { status: 10, is_delete: 0 } }),
     ]);
 
-    const totals = new Map(counts.map((row: any) => [row.event_type, Number(row.total) || 0]));
+    const totals = new Map<string, number>();
+    counts.forEach((row: any) => totals.set(String(row.event_type), Number(row.total) || 0));
     const count = (type: string) => Number(totals.get(type) || 0);
 
     return {
@@ -90,14 +94,26 @@ export class Analytics {
       .orderBy("date", "ASC")
       .getRawMany();
 
-    return rows.map((row: any) => ({
-      date: row.date,
-      pv: Number(row.pv) || 0,
-      uv: Number(row.uv) || 0,
-      detail_views: Number(row.detail_views) || 0,
-      download_clicks: Number(row.download_clicks) || 0,
-      search_count: Number(row.search_count) || 0,
-    }));
+    const rowsByDate = new Map<string, any>();
+    rows.forEach((row: any) => rowsByDate.set(String(row.date), row));
+
+    const result = [];
+    let cursor = dayjs(range.startDate);
+    const end = dayjs(range.endDate);
+    while (!cursor.isAfter(end, "day")) {
+      const date = cursor.format("YYYY-MM-DD");
+      const row = rowsByDate.get(date) || {};
+      result.push({
+        date,
+        pv: Number(row.pv) || 0,
+        uv: Number(row.uv) || 0,
+        detail_views: Number(row.detail_views) || 0,
+        download_clicks: Number(row.download_clicks) || 0,
+        search_count: Number(row.search_count) || 0,
+      });
+      cursor = cursor.add(1, "day");
+    }
+    return result;
   }
 
   async appRanking(query: any = {}) {
