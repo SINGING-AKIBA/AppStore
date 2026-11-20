@@ -98,7 +98,7 @@
 				</view>
 			</view>
 
-			<view v-if="apps.length && !keyword" class="list-footer">
+			<view v-if="apps.length" class="list-footer">
 				<text v-if="loadingMore">{{ t('apps.loadingMore') }}</text>
 				<text v-else-if="hasMore" @click="loadApps(false)">{{ t('apps.loadMore') }}</text>
 				<text v-else>{{ t('apps.allLoaded') }}</text>
