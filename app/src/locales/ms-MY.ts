@@ -84,6 +84,8 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'loadMore': 'Ketik untuk memuatkan lagi',
     'allLoaded': 'Anda sudah melihat semuanya',
     'loadFailed': 'Tidak dapat memuatkan aplikasi. Sila cuba lagi.',
+    'detailUnavailable': 'Maklumat pengenalan aplikasi tidak lengkap.',
+    'navigationFailed': 'Tidak dapat membuka butiran aplikasi. Sila cuba lagi.',
   },
 }
 
