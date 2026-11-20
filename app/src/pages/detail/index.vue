@@ -200,6 +200,7 @@ import { ref, reactive, computed, onUnmounted } from 'vue'
 import { onLoad, onShow, onHide } from '@dcloudio/uni-app'
 import { useI18n } from 'vue-i18n'
 import { info as getAppInfo } from '@/api/Apps'
+import { trackAnalytics } from '@/utils/analytics'
 
 const { t } = useI18n()
 
@@ -215,6 +216,7 @@ const activeScreenshotIndex = ref(0)
 const currentYear = ref(new Date().getFullYear())
 const currentAppId = ref('')
 const currentAppKey = ref('')
+let detailPageTracked = false
 
 const appInfo = reactive({
 	icon: '',
@@ -366,6 +368,19 @@ function getAppInfoQuery() {
 	return {}
 }
 
+function getAnalyticsAppId() {
+	const appId = Number(currentAppId.value)
+	return Number.isInteger(appId) && appId > 0 ? appId : undefined
+}
+
+function trackDetailPageView() {
+	const appId = getAnalyticsAppId()
+	if (!appId || detailPageTracked) return
+	detailPageTracked = true
+	trackAnalytics({ event_type: 'page_view', app_info_id: appId, page_path: '/pages/detail/index' })
+	trackAnalytics({ event_type: 'app_detail_view', app_info_id: appId, page_path: '/pages/detail/index' })
+}
+
 async function loadAppInfo() {
 	loading.value = true
 	loadError.value = false
@@ -373,7 +388,9 @@ async function loadAppInfo() {
 	try {
 		const res = await getAppInfo(getAppInfoQuery())
 		if (res && res.data) {
+			if (!currentAppId.value && res.data.id) currentAppId.value = String(res.data.id)
 			Object.assign(appInfo, mapAppInfoData(res.data))
+			trackDetailPageView()
 			// 缓存原始数据到本地存储
 			cacheAppData(res.data)
 		} else {
@@ -449,6 +466,13 @@ function handleDownload() {
 		})
 		return
 	}
+
+	const appId = getAnalyticsAppId()
+	trackAnalytics({
+		event_type: 'app_download_click',
+		app_info_id: appId,
+		page_path: '/pages/detail/index',
+	})
 
 	downloading.value = true
 
@@ -526,15 +550,21 @@ onLoad((options) => {
 		return
 	}
 
+	trackDetailPageView()
+
 	// 优先展示缓存，提升首屏速度
 	const cached = readAppDataCache()
 	if (cached) {
+		if (!currentAppId.value && cached.id) currentAppId.value = String(cached.id)
 		Object.assign(appInfo, mapAppInfoData(cached))
+		trackDetailPageView()
 		loading.value = false
 		// 后台静默更新
 		getAppInfo(getAppInfoQuery()).then((res) => {
 			if (res && res.data) {
+				if (!currentAppId.value && res.data.id) currentAppId.value = String(res.data.id)
 				Object.assign(appInfo, mapAppInfoData(res.data))
+				trackDetailPageView()
 				cacheAppData(res.data)
 			}
 		}).catch(() => {

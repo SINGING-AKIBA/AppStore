@@ -20,6 +20,11 @@ export class Admin implements IMiddleware<Context, NextFunction> {
     'admin/edit',
     'menu/index',
     'statistics/exportData',
+    'analytics/overview',
+    'analytics/trend',
+    'analytics/app-ranking',
+    'analytics/search-keywords',
+    'analytics/source-stats',
   ];
 
   @Inject()

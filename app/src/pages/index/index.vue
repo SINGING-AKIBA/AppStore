@@ -16,6 +16,7 @@
 						:focus="searchExpanded"
 						confirm-type="search"
 						@input="handleSearchInput"
+						@confirm="trackSearch"
 					/>
 					<view class="search-toggle" @tap.stop="toggleSearch">
 						<view v-if="!searchExpanded" class="search-icon" />
@@ -104,6 +105,7 @@ import { computed, ref } from 'vue'
 import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { list as getApps } from '@/api/Apps'
 import { getAppStoreLogo } from '@/api/Settings'
+import { trackAnalytics } from '@/utils/analytics'
 import defaultLogo from '@/logo.png'
 import { useI18n } from 'vue-i18n'
 
@@ -133,6 +135,17 @@ const filteredApps = computed(() => {
 
 function handleSearchInput(event) {
 	keyword.value = event?.detail?.value ?? ''
+}
+
+function trackSearch() {
+	const searchKeyword = keyword.value.trim()
+	if (!searchKeyword) return
+	trackAnalytics({
+		event_type: 'app_search',
+		keyword: searchKeyword,
+		result_count: filteredApps.value.length,
+		page_path: '/pages/index/index',
+	})
 }
 
 function toggleSearch() {
@@ -239,6 +252,7 @@ onLoad((options) => {
 		})
 		return
 	}
+	trackAnalytics({ event_type: 'page_view', page_path: '/pages/index/index' })
 	loadAppStoreLogo()
 	loadApps(true)
 })
