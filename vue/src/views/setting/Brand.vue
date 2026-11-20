@@ -104,15 +104,18 @@ function extractLegacyLogo(value) {
 
 async function loadBranding() {
   try {
-    const [brandingResponse, legacyLogoResponse] = await Promise.all([
-      getSettings({ key: 'app_store_branding' }),
-      getSettings({ key: 'app_store_logo' }),
-    ]);
+    const brandingResponse = await getSettings({ key: 'app_store_branding' });
     const branding = brandingResponse?.data && typeof brandingResponse.data === 'object'
       ? brandingResponse.data
       : {};
 
-    form.logo = String(branding.logo || extractLegacyLogo(legacyLogoResponse?.data)).trim();
+    let legacyLogo = '';
+    if (!branding.logo) {
+      const legacyLogoResponse = await getSettings({ key: 'app_store_logo' });
+      legacyLogo = extractLegacyLogo(legacyLogoResponse?.data);
+    }
+
+    form.logo = String(branding.logo || legacyLogo).trim();
     form.title = String(branding.title || 'APP STORE').trim() || 'APP STORE';
     form.subtitle = String(branding.subtitle || 'CURATED APPS').trim() || 'CURATED APPS';
   } catch (error) {

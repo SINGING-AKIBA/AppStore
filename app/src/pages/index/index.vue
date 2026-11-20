@@ -316,22 +316,29 @@ onReachBottom(() => loadApps(false))
 	justify-content: center;
 	gap: 3px;
 	min-width: 0;
+	max-width: calc(100vw - 150px);
 }
 
 .brand-name {
+	overflow: hidden;
 	color: #203653;
 	font-size: 15px;
 	font-weight: 750;
 	letter-spacing: 0.08em;
 	line-height: 1.1;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .brand-caption {
+	overflow: hidden;
 	color: #8a98ab;
 	font-size: 9px;
 	font-weight: 600;
 	letter-spacing: 0.14em;
 	line-height: 1;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .header-brand.is-hidden {
