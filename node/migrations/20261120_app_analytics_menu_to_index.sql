@@ -19,12 +19,12 @@ SET
   title = '数据统计',
   icon = 'bar-chart',
   status = 10,
-  \`show\` = 10,
+  `show` = 10,
   update_time = UNIX_TIMESTAMP()
 WHERE id = @index_page_id AND @index_menu_id IS NOT NULL;
 
 INSERT INTO smile_menu
-  (type, pid, title, path, icon, weigh, status, target, \`show\`, create_time, update_time, is_delete, delete_time)
+  (type, pid, title, path, icon, weigh, status, target, `show`, create_time, update_time, is_delete, delete_time)
 SELECT
   20, @index_menu_id, '数据统计', '/index/Index', 'bar-chart', 2, 10, 10, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 0, NULL
 WHERE @index_menu_id IS NOT NULL AND @index_page_id IS NULL;
@@ -33,7 +33,7 @@ WHERE @index_menu_id IS NOT NULL AND @index_page_id IS NULL;
 UPDATE smile_menu
 SET
   status = 20,
-  \`show\` = 20,
+  `show` = 20,
   is_delete = 1,
   delete_time = UNIX_TIMESTAMP(),
   update_time = UNIX_TIMESTAMP()
