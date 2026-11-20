@@ -108,7 +108,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import dayjs from "dayjs";
 import * as echarts from "echarts";
 import { message } from "ant-design-vue";
-import { ReloadOutlined, DownloadOutlined, EyeOutlined, UserOutlined, AppstoreOutlined, DownloadOutlined as DownloadIcon, SearchOutlined } from "@ant-design/icons-vue";
+import { ReloadOutlined, DownloadOutlined, EyeOutlined, UserOutlined, AppstoreOutlined, SearchOutlined } from "@ant-design/icons-vue";
 import * as analyticsApi from "@/api/Analytics";
 
 defineOptions({ name: "analytics.Index" });
@@ -141,7 +141,7 @@ const metricCards = [
   { key: "pv", label: "页面访问 PV", note: "应用列表和详情页面访问次数", icon: EyeOutlined },
   { key: "uv", label: "匿名访客 UV", note: "按匿名访客标识去重", icon: UserOutlined },
   { key: "detail_views", label: "应用详情访问", note: "应用详情页访问次数", icon: EyeOutlined },
-  { key: "download_clicks", label: "下载按钮点击", note: "每次有效点击计一次", icon: DownloadIcon },
+  { key: "download_clicks", label: "下载按钮点击", note: "每次有效点击计一次", icon: DownloadOutlined },
   { key: "search_count", label: "搜索次数", note: "用户主动提交的搜索次数", icon: SearchOutlined },
 ];
 
@@ -272,6 +272,12 @@ function exportCsv() {
     [],
     ["搜索关键词", "搜索次数", "无结果次数"],
     ...keywords.value.map(item => [item.keyword, item.search_count, item.no_result_count]),
+    [],
+    ["访问来源", "访问 PV", "匿名 UV"],
+    ...sourceStats.value.sources.map(item => [sourceLabel(item.source), item.visits, item.uv]),
+    [],
+    ["运行平台", "设备类型", "访问 PV", "匿名 UV"],
+    ...sourceStats.value.platforms.map(item => [item.platform, item.device_type, item.visits, item.uv]),
   ];
   const csv = "\ufeff" + rows.map(row => row.map(escapeCsv).join(",")).join("\r\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
