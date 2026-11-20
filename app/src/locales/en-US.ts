@@ -84,6 +84,8 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'loadMore': 'Tap to load more',
     'allLoaded': 'You’re all caught up',
     'loadFailed': 'Unable to load apps. Please try again.',
+    'detailUnavailable': 'This app is missing its detail identifier.',
+    'navigationFailed': 'Could not open app details. Please try again.',
   },
 }
 

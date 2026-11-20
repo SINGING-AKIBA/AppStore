@@ -41,21 +41,33 @@ export class AppInfo extends Base {
     }, false);
   }
 
-  async detail(query:any) {
-    const detail = await this.model.findOne({
-      where: {id: query.id || 1},
-    });
-    if(!detail){
-      throw new Error('没有找到该应用');
+  async detail(query: any) {
+    const id = Number(query?.id);
+    const where = Number.isInteger(id) && id > 0
+      ? { id }
+      : query?.app_key
+        ? { app_key: query.app_key }
+        : null;
+
+    if (!where) {
+      throw new Error("缺少应用标识");
     }
+
+    const detail = await this.model.findOne({ where });
+    if (!detail) {
+      throw new Error("没有找到该应用");
+    }
+
+    const appInfoId = detail.id;
     const images = await this.images.find({
-      where: {app_info_id: query.id || 1}
-    })
+      where: { app_info_id: appInfoId },
+    });
     const version = await this.version.find({
-      where: {app_info_id: query.id || 1,status: 20,update_type:20}
-    })
-    detail.app_screenshot =  images;
-    detail.app_version =  version;
+      where: { app_info_id: appInfoId, status: 20, update_type: 20 },
+    });
+
+    detail.app_screenshot = images;
+    detail.app_version = version;
     return detail;
   }
 }

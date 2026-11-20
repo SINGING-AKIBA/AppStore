@@ -216,7 +216,8 @@ const downloading = ref(false)
 const currentPlatform = ref('')
 const activeScreenshotIndex = ref(0)
 const currentYear = ref(new Date().getFullYear())
-const currentAppId = ref('1')
+const currentAppId = ref('')
+const currentAppKey = ref('')
 
 const appInfo = reactive({
 	icon: '',
@@ -362,12 +363,18 @@ function detectPlatform() {
 
 // ==================== 加载数据 ====================
 
+function getAppInfoQuery() {
+	if (currentAppId.value) return { id: currentAppId.value }
+	if (currentAppKey.value) return { app_key: currentAppKey.value }
+	return {}
+}
+
 async function loadAppInfo() {
 	loading.value = true
 	loadError.value = false
 
 	try {
-		const res = await getAppInfo({ id: currentAppId.value })
+		const res = await getAppInfo(getAppInfoQuery())
 		if (res && res.data) {
 			Object.assign(appInfo, mapAppInfoData(res.data))
 			// 缓存原始数据到本地存储
@@ -393,7 +400,8 @@ async function loadAppInfo() {
 const CACHE_KEY_PREFIX = 'app_download_info_cache_'
 
 function getCacheKey() {
-	return CACHE_KEY_PREFIX + currentAppId.value
+	const identity = currentAppId.value || ('key_' + currentAppKey.value)
+	return CACHE_KEY_PREFIX + identity
 }
 
 function cacheAppData(data) {
@@ -509,9 +517,17 @@ function onScreenshotScroll(e) {
 // ==================== 生命周期 ====================
 
 onLoad((options) => {
-	currentAppId.value = String(options?.id || 1)
+	currentAppId.value = options?.id ? String(options.id) : ''
+	currentAppKey.value = options?.app_key ? String(options.app_key) : ''
 	currentPlatform.value = detectPlatform()
 	showWxGuide.value = isWechatBrowser()
+
+	if (!currentAppId.value && !currentAppKey.value) {
+		loading.value = false
+		loadError.value = true
+		uni.showToast({ title: t('index.toast.emptyData'), icon: 'none' })
+		return
+	}
 
 	// 优先展示缓存，提升首屏速度
 	const cached = readAppDataCache()
@@ -519,7 +535,7 @@ onLoad((options) => {
 		Object.assign(appInfo, mapAppInfoData(cached))
 		loading.value = false
 		// 后台静默更新
-		getAppInfo({ id: currentAppId.value }).then((res) => {
+		getAppInfo(getAppInfoQuery()).then((res) => {
 			if (res && res.data) {
 				Object.assign(appInfo, mapAppInfoData(res.data))
 				cacheAppData(res.data)

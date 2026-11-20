@@ -84,6 +84,8 @@ const locale: LocaleMessages<typeof import('vue-i18n').messages> = {
     'loadMore': '点击加载更多',
     'allLoaded': '已经到底啦',
     'loadFailed': '加载失败，请稍后重试。',
+    'detailUnavailable': '应用信息不完整，无法打开详情。',
+    'navigationFailed': '打开应用详情失败，请稍后重试。',
   },
 }
 
