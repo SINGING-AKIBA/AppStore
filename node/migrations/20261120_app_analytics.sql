@@ -27,29 +27,31 @@ CREATE TABLE IF NOT EXISTS `smile_analytics_event` (
   KEY `idx_analytics_keyword_time` (`keyword`, `create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AppStore匿名行为事件';
 
-SET @analytics_menu_id = (
+-- Reuse the existing /index/Index dashboard route instead of creating a new menu.
+SET @index_menu_id = (
   SELECT id FROM smile_menu
-  WHERE path = '/analytics' AND COALESCE(is_delete, 0) = 0
+  WHERE path = '/index' AND type = 10 AND COALESCE(is_delete, 0) = 0
   ORDER BY id LIMIT 1
 );
 
-INSERT INTO smile_menu
-  (type, pid, title, path, icon, weigh, status, target, `show`, create_time, update_time, is_delete, delete_time)
-SELECT
-  10, 0, '数据统计', '/analytics', 'bar-chart', 30, 10, 10, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 0, NULL
-WHERE @analytics_menu_id IS NULL;
-
-SET @analytics_menu_id = (
+SET @index_page_id = (
   SELECT id FROM smile_menu
-  WHERE path = '/analytics' AND COALESCE(is_delete, 0) = 0
+  WHERE path = '/index/Index' AND type = 20 AND COALESCE(is_delete, 0) = 0
   ORDER BY id LIMIT 1
 );
 
+UPDATE smile_menu
+SET
+  pid = @index_menu_id,
+  title = '数据统计',
+  icon = 'bar-chart',
+  status = 10,
+  \`show\` = 10,
+  update_time = UNIX_TIMESTAMP()
+WHERE id = @index_page_id AND @index_menu_id IS NOT NULL;
+
 INSERT INTO smile_menu
-  (type, pid, title, path, icon, weigh, status, target, `show`, create_time, update_time, is_delete, delete_time)
+  (type, pid, title, path, icon, weigh, status, target, \`show\`, create_time, update_time, is_delete, delete_time)
 SELECT
-  20, @analytics_menu_id, '数据总览', '/analytics/Index', 'bar-chart', 10, 10, 10, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 0, NULL
-WHERE NOT EXISTS (
-  SELECT 1 FROM smile_menu
-  WHERE path = '/analytics/Index' AND COALESCE(is_delete, 0) = 0
-);
+  20, @index_menu_id, '数据统计', '/index/Index', 'bar-chart', 2, 10, 10, 10, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 0, NULL
+WHERE @index_menu_id IS NOT NULL AND @index_page_id IS NULL;

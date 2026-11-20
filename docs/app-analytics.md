@@ -24,9 +24,10 @@
 
 \`\`\`bash
 mysql -u <user> -p <database> < node/migrations/20261120_app_analytics.sql
+mysql -u <user> -p <database> < node/migrations/20261120_app_analytics_menu_to_index.sql
 \`\`\`
 
-该脚本创建事件表，并幂等地添加后台“数据统计 / 数据总览”菜单。
+该脚本创建事件表，并将现有后台“首页 / 数据统计”（`/index/Index`）菜单指向统计看板。若此前已执行过旧版迁移并生成独立的 `/analytics` 菜单，请再执行 `node/migrations/20261120_app_analytics_menu_to_index.sql`，它会复用现有 `/index/Index` 并软删除旧菜单。
 
 ## 事件类型
 
